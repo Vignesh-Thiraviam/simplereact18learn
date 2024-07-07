@@ -2,12 +2,43 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 
-const parent = React.createElement("div" , { id : "parent"}, React.createElement("div" , { id : "child"},
-[React.createElement("h1" , {}, "Hello world form react child"),React.createElement("h2" , {}, "Hello world form react child 2")]));
+// const heading = React.createElement("h1" , { id : "heading"}, "Welcome once more 🚀");
 
+// JSX => Babel transpiles it to React Element JS object
+// React element
+const Title = () => (<h1>
+    Welcome from jsx 🚀</h1>);
 
-const heading = React.createElement("h1" , { id : "heading"}, "Hello world form react");
+// React component
+// 2 ways to create
+// class based components - OLD
+// functional components - NEW
+
+const block2 = (<h3> A code from a block </h3>);
+// Diff between element and component
+
+// Function that returns a jsx or react element is a functional component
+const HeadingComponent2 = () =>{
+    return <h1 className="heading">Sasikala heading component 🚀</h1>
+}
+
+const num = 101;
+
+// cross site attacts will be prevented by JSX {}
+
+// React element , component can go inside each other in different ways like here
+const HeadingComponent = () => (
+    <div id="container">
+        <Title />
+        { Title()}
+        {num}
+        {block2}
+        <h1 className="heading">Sasikala heading component 🚀</h1>
+    </div>
+     
+)
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(parent);
+root.render(<HeadingComponent />);

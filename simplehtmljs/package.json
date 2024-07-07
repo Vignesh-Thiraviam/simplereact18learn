@@ -4,7 +4,9 @@
   "description": "This is learning react18 by vignesh",
   "main": "App.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,7 @@
   },
   "homepage": "https://github.com/Vignesh-Thiraviam/simplereact18learn#readme",
   "devDependencies": {
+    "babel": "^6.23.0",
     "parcel": "^2.8.3",
     "process": "^0.11.10"
   },
@@ -27,7 +30,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
-  "browserslist" : [
+  "browserslist": [
     "last 2 Chrome version",
     "last 2 firefox version"
   ]
