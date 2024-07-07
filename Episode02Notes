@@ -30,3 +30,6 @@ change type="module" in script tag of html to resolve this.
 
 
 npx parcel build index.html --> gives production ready html, css file
+
+# Tell your app in which browsers it will be supported
+browserslist --> package.json. Parcel provided one
