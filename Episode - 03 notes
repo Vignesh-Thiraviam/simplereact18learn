@@ -1,0 +1,8 @@
+# Add scripts to package.json
+"start" : "package index.html"
+"build" : "package build index.html"
+
+# Usage
+npm run start
+
+since start is a reserved word can be used as "npm start"
