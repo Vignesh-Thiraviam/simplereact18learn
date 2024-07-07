@@ -24,3 +24,9 @@ We can do it via CDN links , but it is not preferred . It will make another netw
 npm install react 
 npm install react-dom
 
+#Known errors during building proj
+@parcel/transformer-js: Browser scripts cannot have imports or exports. --> pointing to App.js
+change type="module" in script tag of html to resolve this.
+
+
+npx parcel build index.html --> gives production ready html, css file
