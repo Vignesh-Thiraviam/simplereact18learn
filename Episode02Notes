@@ -13,3 +13,14 @@ Parcel comes as a package , can be taken from npm.
 
 npm install -D parcel --> why -D ?? Telling the parcel is a dev dependency , not required for production
 2 types of depencies and app can have. 1. Dev dependencies , 2. Project dependencies
+
+npx parcel index.html --> executing the parcel bundler. 
+
+npm --> downloads dependencies , npx --> execute command
+
+# Another way to bring react into our application : npm
+We can do it via CDN links , but it is not preferred . It will make another network call to get React. 
+
+npm install react 
+npm install react-dom
+
