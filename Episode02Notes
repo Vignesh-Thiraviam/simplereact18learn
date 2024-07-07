@@ -1,3 +1,15 @@
 npm init , initializes npm for your folder/project
 Javascript package manager
 npm init -- generates package.json
+
+
+#Bundler
+Our whole code needs to be compressed , cleaned before we put it to production.
+Webpack, parsel are some of the bundlers. 
+
+We are going to use parcel for bundler in our example. All bundlers are same , the internal implementations vary.
+
+Parcel comes as a package , can be taken from npm.
+
+npm install -D parcel --> why -D ?? Telling the parcel is a dev dependency , not required for production
+2 types of depencies and app can have. 1. Dev dependencies , 2. Project dependencies
