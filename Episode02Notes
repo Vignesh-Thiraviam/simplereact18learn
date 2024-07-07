@@ -1,0 +1,3 @@
+npm init , initializes npm for your folder/project
+Javascript package manager
+npm init -- generates package.json
