@@ -1,0 +1,25 @@
+Config driven UI
+
+# Passing data as props 
+
+                <RestaurantCard resName="Sasi foods" cuisine = "Biryani, Ragi dosa , Poori" />
+                <RestaurantCard resName="KFC" cuisine = "French fries , Hot wings , Bucket chicken"/>
+                <RestaurantCard resName="Burger King" cuisine = "Burgers"/>
+                <RestaurantCard resName="bambino" cuisine = "Biryani, masala dosa"/>
+                <RestaurantCard resName="Dead centre brewery" cuisine = "Beer , starters"/>
+
+# Destructuring props 
+
+const RestaurantCard = ({resName , cuisine}) => {
+
+    return (
+        <div className="res-card">
+            <img className= "res-logo" alt="food items"  src= "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/eldyxkh4fkqarj7z38a9" />
+            <h3>{resName}</h3>
+            <h4>{cuisine}</h4>
+            <h4>4.4 stars</h4>
+            <h4>27 minutes</h4>
+        </div>
+    )
+}
+
