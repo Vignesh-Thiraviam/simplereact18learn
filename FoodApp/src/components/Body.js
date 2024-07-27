@@ -1,83 +1,80 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import restObj from "../utils/mockData";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () =>{
 
-    const [listOfRestaurant, setListOfRestaurants] = useState([
-        {
-            "restaurantId": 1,
-            "name": "Pizza Palace",
-            "address": "123 Main St, Springfield",
-            "cuisine": "Italian",
-            "rating": 4.5
-        },
-        {
-            "restaurantId": 2,
-            "name": "KFC",
-            "address": "123 Main St, Springfield",
-            "cuisine": "Italian",
-            "rating": 3.5
-        },
-        {
-            "restaurantId": 3,
-            "name": "Dominos",
-            "address": "123 Main St, Springfield",
-            "cuisine": "Italian",
-            "rating": 4.2
-        }
-    
-    ]);
-
+    const [listOfRestaurant, setListOfRestaurants] = useState([]);
     const [searchRestaurant,setSearchRestaurant] = useState("");
-
-    const apiUrl = 'https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING';
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
     useEffect(() => {
-        console.log("Use effect called");
-        // setListOfRestaurants([]);
+        // called after a component is rendered
+        fetchData();
     }, []);
 
-    // Conditional rendering
-    if(listOfRestaurant.length === 0){
-        return (<div>
-            <Shimmer />
-            </div>
-        )
+    const fetchData = async() => {
+        const data = await fetch('https://proxy.cors.sh/https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING', {
+            headers: {
+            'x-cors-api-key': 'temp_8518f8081b5e1938e9d45062b1593e2d'
+            }
+        })
+
+        // const data = await fetch('https://corsproxy.io/?'+ encodeURIComponent('https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING'));
+        const json = await data.json();
+        // console.log(json);
+        console.log(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        console.log(JSON.stringify(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants[1]));
+        setFilteredRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        setListOfRestaurants(json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     }
-    return (
+
+    const onlineStatus = useOnlineStatus();
+    if (onlineStatus === false){
+        return <h1> Looks like you are offline </h1>
+    }
+
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+
+
+    return (filteredRestaurants.length === 0) ? (<div>
+    <Shimmer />
+    </div>) : (
         <div className="body">
-            <div className="topBody">
-            <div className="filter">
-                <button className="filter-btn" 
-                onClick={ () => { 
-                    const filteredRest = listOfRestaurant.filter(
-                        (res) => res.rating > 4
-                     );
-                    console.log(filteredRest);
-                    setListOfRestaurants(filteredRest);
-                }}
-                >Top rated restaurants</button>
+            <div className="bg-green-300 flex items-center">
+                <div className="">
+                    <button className="px-4 py-4 bg-green-400 m-2 rounded-lg" 
+                    onClick={ () => { 
+                        const filteredRest = listOfRestaurant.filter(
+                            (res) => res.rating > 4
+                        );
+                        console.log(filteredRest);
+                        setFilteredRestaurants(filteredRest);
+                    }}
+                    >Top rated restaurants</button>
+                </div>
+                <div className="m-4 p-4">
+                    <input className="border border-solid border-black bg-blue-300" type="text" placeholder="Enter your restaurant" value={searchRestaurant} onChange={ (event) => {
+                        setSearchRestaurant(event.target.value);
+                    }} />
+                    <button className="btn px-4 bg-green-400 m-4 rounded-lg" onClick={() => {
+                                            const filteredRest = listOfRestaurant.filter((res) => {
+                                                return res.info.name.toLowerCase().includes(searchRestaurant.toLowerCase())
+                                            }
+                                            );
+                                            console.log(filteredRest);
+                                            setFilteredRestaurants(filteredRest);
+                    }}>Search</button>
+                </div>
             </div>
-            <div className="search">
-                <input type="text" placeholder="Enter your restaurant" value={searchRestaurant} onChange={ (event) => {
-                    console.log("Event getting changed");
-                    console.log(event.target.value);
-                    setSearchRestaurant(event.target.value);
-                }} />
-                <button className="search-btn" onClick={() => {
-                                        const filteredRest = listOfRestaurant.filter(
-                                            (res) => res.name.includes(searchRestaurant)
-                                         );
-                                        console.log(filteredRest);
-                                        setListOfRestaurants(filteredRest);
-                }}>find</button>
-            </div>
-            </div>
-            <div className="res-container">
+            <div className="flex flex-wrap bg-green-300">
                 {
-                    listOfRestaurant.map( restaurant => <RestaurantCard  key = {restaurant.restaurantId} resData = {restaurant}/>)
+                    listOfRestaurant.map( restaurant => <Link key = {restaurant.info.id}  to={"/restaurants/"+restaurant.info.id}>
+                        {restaurant.info.avgRating > 4.2 ? <RestaurantCardPromoted resData = {restaurant.info}/> : <RestaurantCard  resData = {restaurant.info}/>}
+                        </Link>)
                 }
             </div>
 
